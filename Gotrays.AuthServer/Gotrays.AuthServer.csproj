@@ -6,17 +6,20 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Masa.Blazor" Version="1.0.0-preview.6" />
         <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.AspNetCore.Identity.UI" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" PrivateAssets="All" />
+        <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0-preview.1.23110.8" />
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
         <PackageReference Include="OpenIddict.AspNetCore" />
         <PackageReference Include="OpenIddict.EntityFrameworkCore" />
         <PackageReference Include="OpenIddict.Quartz" />
         <PackageReference Include="Quartz.Extensions.Hosting" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
 </Project>

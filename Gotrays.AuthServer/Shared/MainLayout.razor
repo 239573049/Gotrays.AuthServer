@@ -1,4 +1,26 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
 
-<main> @Body
-    </main>
+<MApp>
+    <MTabs FixedTabs BackgroundColor="indigo" Dark>
+        <MButton Href="/">首页</MButton>
+        <MButton OnClick="Login">登录</MButton>
+        <MButton OnClick="Register">注册账号</MButton>
+        
+    </MTabs>
+    @Body
+</MApp>
+
+@code{
+
+    private void Login()
+    {
+        NavigationManager.NavigateTo("/Account/Login");
+    }
+
+    private void Register()
+    {
+        NavigationManager.NavigateTo("/Account/Register");
+    }
+
+}

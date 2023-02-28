@@ -1,0 +1,83 @@
+﻿@page "/Account/Register"
+@using System.Net.Http
+@layout EmptyLayout
+
+@inject NavigationManager Navigation
+@inject IHttpClientFactory HttpClientFactory
+@inject IPopupService PopupService
+
+<MRow>
+    <MCol Cols="8" Style="background-color: #f8f8f8; height:100vh;">
+        <MContainer Class="text-h6">
+            <MIcon Large Left Color="purple">fas fa-seedling</MIcon>
+            Pro
+        </MContainer>
+        <MContainer Class="col-lg-7 mt-16">
+            <MImage Class="" Src="/img/auth/register-v2.0a9e487c.svg">
+            </MImage>
+        </MContainer>
+    </MCol>
+
+    <MCol Cols="4" Align="AlignTypes.Center" Style="background-color:white;">
+        <MCard Class="mx-auto" MaxWidth="@Width" Elevation="@Elevation">
+
+            <MCardTitle Class="justify-center pt-9">
+                <MIcon Large Left Color="purple">fas fa-seedling</MIcon>
+                Gotrays
+            </MCardTitle>
+            <MCardTitle Class="pt-3 text-h5"> 开始您的冒险 🚀</MCardTitle>
+            <MCardSubtitle Class="pt-2 mb-2 text-subtitle-1">
+                请登录您的帐户，开始冒险
+            </MCardSubtitle>
+
+            <MCardText>
+                <MTextField @bind-Value="RegisterModule.Email" Class="mt-2" Label="Email" Placeholder="239573049@qq.com" Outlined Dense>
+                </MTextField>
+
+                <MTextField @bind-Value="RegisterModule.Password" Class="mt-2" Label="Password" Type="@(_show ? "text" : "password")"
+                            Placeholder="Aa123456." AppendIcon="@(_show ? "mdi-eye" : "mdi-eye-off")"
+                            OnAppendClick="() => _show = !_show" Outlined Dense>
+                </MTextField>
+
+                <MCheckbox Class="mt-0 pt-0" Color="#7367f0" Value="PrivacyPolicy" Label="我同意隐私政策和条款"></MCheckbox>
+                <MButton Color="#7367f0" Dark Block OnClick="SlinUpClick"> 注册 </MButton>
+                <MRow NoGutters Justify="JustifyTypes.Center" Class="mt-5">
+                    已经有账号了? &nbsp;
+                    <a style="color:#7367f0;text-decoration:none;"
+                       onclick="@(() => Navigation.NavigateTo(Navigation.BaseUri + SignInRoute))">
+                        还是登录吧
+                    </a>
+                </MRow>
+
+                <MRow NoGutters Class="mt-4">
+                    <MCol Align="AlignTypes.Center" Class="mr-3">
+                        <MDivider></MDivider>
+                    </MCol>
+                    或
+                    <MCol Align="AlignTypes.Center" Class="ml-3">
+                        <MDivider></MDivider>
+                    </MCol>
+                </MRow>
+            </MCardText>
+            <MCardActions>
+                <MRow Class="pb-5" Justify="JustifyTypes.Center" NoGutters>
+                    <MButton Class="mx-3" Fab Small Dark Color="primary">
+                        <MIcon>
+                            mdi-qqchat
+                        </MIcon>
+                    </MButton>
+                    <MButton Class="mx-3" Fab Small Dark Color="green">
+                        <MIcon>
+                            mdi-wechat
+                        </MIcon>
+                    </MButton>
+                    <MButton Class="mx-3" Fab Small Dark>
+                        <MIcon>
+                            mdi-github
+                        </MIcon>
+                    </MButton>
+                </MRow>
+            </MCardActions>
+        </MCard>
+    </MCol>
+</MRow>

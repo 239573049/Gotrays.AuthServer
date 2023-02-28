@@ -61,9 +61,8 @@ public class UserinfoController : Controller
             claims[Claims.Role] = await _userManager.GetRolesAsync(user);
         }
 
-        // Note: the complete list of standard claims supported by the OpenID Connect specification
-        // can be found here: http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
-
+        // 注:OpenID Connect规范支持的标准声明的完整列表
+        // 可以在这里找到:http://openid.net/specs/openid-connect-core-1_0.html#StandardClaims
         return Ok(claims);
     }
 }

@@ -10,6 +10,16 @@
     <base href="~/"/>
     <link href="css/site.css" rel="stylesheet"/>
     <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered"/>
+    <!-- masa blazor css style -->
+    <link href="_content/Masa.Blazor/css/masa-blazor.min.css" rel="stylesheet"/>
+
+    <link href="css/masa-blazor-pro.css" rel="stylesheet"/>
+    <!--icon file,import need to use-->
+    <link href="https://cdn.masastack.com/npm/@("@mdi")/font@5.x/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="https://cdn.masastack.com/npm/materialicons/materialicons.css" rel="stylesheet">
+    <link href="https://cdn.masastack.com/npm/fontawesome/v5.0.13/css/all.css" rel="stylesheet">
+
+
 </head>
 <body>
 <component type="typeof(App)" render-mode="ServerPrerendered"/>
@@ -24,7 +34,57 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
-
+<style>
+    html, body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
+    
+    h1:focus {
+        outline: none;
+    }
+    
+    a, .btn-link {
+        color: #0071c1;
+    }
+    
+    .btn-primary {
+        color: #fff;
+        background-color: #1b6ec2;
+        border-color: #1861ac;
+    }
+    
+    .valid.modified:not([type=checkbox]) {
+        outline: 1px solid #26b050;
+    }
+    
+    .invalid {
+        outline: 1px solid red;
+    }
+    
+    .validation-message {
+        color: red;
+    }
+    
+    #blazor-error-ui {
+        background: lightyellow;
+        bottom: 0;
+        box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+        display: none;
+        left: 0;
+        padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+        position: fixed;
+        width: 100%;
+        z-index: 1000;
+    }
+    
+        #blazor-error-ui .dismiss {
+            cursor: pointer;
+            position: absolute;
+            right: 0.75rem;
+            top: 0.5rem;
+        }
+</style>
 <script src="_framework/blazor.server.js"></script>
+<script src="_content/BlazorComponent/js/blazor-component.js"></script>
 </body>
 </html>
