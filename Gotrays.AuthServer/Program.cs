@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.Http;
 using Dantooine.Server;
 using Dantooine.Server.Data;
 using Dantooine.Server.Service;
@@ -95,19 +96,19 @@ services.AddOpenIddict()
             .SetUserinfoEndpointUris("connect/userinfo")
             .SetVerificationEndpointUris("connect/verify");
 
-        // 将“email”、“profile”和“roles”范围标记为受支持的范围。
+        // Mark the "email", "profile" and "roles" scopes as supported scopes.
         options.RegisterScopes(OpenIddictConstants.Permissions.Scopes.Email,
             OpenIddictConstants.Permissions.Scopes.Profile, OpenIddictConstants.Permissions.Scopes.Roles);
 
-        // 注意:此示例仅使用授权代码流，但您可以启用
-        // 其他流，如果你需要支持隐式，密码或客户端凭证。
+        // Note: this sample only uses the authorization code flow but you can enable
+        // the other flows if you need to support implicit, password or client credentials.
         options.AllowAuthorizationCodeFlow();
 
         // Register the signing and encryption credentials.
         options.AddDevelopmentEncryptionCertificate()
             .AddDevelopmentSigningCertificate();
 
-        // 注册ASP。NET核心主机，并配置ASP。NET core特定的选项。
+        // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
         options.UseAspNetCore()
             .EnableAuthorizationEndpointPassthrough()
             .EnableLogoutEndpointPassthrough()
@@ -115,8 +116,6 @@ services.AddOpenIddict()
             .EnableUserinfoEndpointPassthrough()
             .EnableStatusCodePagesIntegration();
     })
-
-    // Register the OpenIddict validation components.
     .AddValidation(options =>
     {
         // Import the configuration from the local OpenIddict server instance.
@@ -126,59 +125,60 @@ services.AddOpenIddict()
         options.UseAspNetCore();
     });
 
-// Register the worker responsible for seeding the database.
-// Note: in a real world application, this step should be part of a setup script.
 services.AddHostedService<Worker>();
-services.AddHttpClient();
+
+services.AddScoped<HttpClient>();
+
 services.AddTransient<IEmailSender, EmailSender>();
 
-services.AddSwaggerGen(delegate (SwaggerGenOptions option) 
-                      { 
-                option.SwaggerDoc( "v1.0", new OpenApiInfo 
-                                  { 
-                    Version = "v1.0",  // 版本
-                    Title = "Gotrays 授权中心",  // 标题
-                    Description = "Gotrays 授权中心服务", // 描述 
-                    Contact = new OpenApiContact  
-                    { 
-                        Name = "token",  // 作者
-                        Email = "239573049@qq.com", // 邮箱
-                        Url = new Uri("http://blog.tokengo.top")  // 可以放Github地址
-                        } 
-                }); 
+services.AddSwaggerGen(delegate(SwaggerGenOptions option)
+{
+    option.SwaggerDoc("v1.0", new OpenApiInfo
+    {
+        Version = "v1.0", // 版本
+        Title = "Gotrays 授权中心", // 标题
+        Description = "Gotrays 授权中心服务", // 描述 
+        Contact = new OpenApiContact
+        {
+            Name = "token", // 作者
+            Email = "239573049@qq.com", // 邮箱
+            Url = new Uri("http://blog.tokengo.top") // 可以放Github地址
+        }
+    });
 
-                // 加载xml文档 显示Swagger的注释
-                string[] files = Directory.GetFiles(AppContext.BaseDirectory, "*.xml");//获取api文档 
-                string[] array = files; 
-                foreach (string filePath in array) 
-                { 
-                    option.IncludeXmlComments(filePath, includeControllerXmlComments: true); 
-                } 
+    // 加载xml文档 显示Swagger的注释
+    string[] files = Directory.GetFiles(AppContext.BaseDirectory, "*.xml"); //获取api文档 
+    string[] array = files;
+    foreach (string filePath in array)
+    {
+        option.IncludeXmlComments(filePath, includeControllerXmlComments: true);
+    }
 
-                option.AddSecurityRequirement(new OpenApiSecurityRequirement 
-                                              { 
-                    { 
-                        new OpenApiSecurityScheme 
-                        { 
-                            Reference = new OpenApiReference 
-                            { 
-                                Id = "Bearer", 
-                                Type = ReferenceType.SecurityScheme 
-                                } 
-                        }, 
-                        Array.Empty<string>() 
-                        } 
-                }); 
+    option.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme
+                }
+            },
+            Array.Empty<string>()
+        }
+    });
 
-            	// 添加Authorization的输入框
-                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme 
-                                             { 
-                    Description = "Please enter into field the word 'Bearer' followed by a space and the JWT value,Format: Bearer {token}", 
-                    Name = "Authorization", 
-                    In = ParameterLocation.Header, 
-                    Type = SecuritySchemeType.ApiKey 
-                    }); 
-            });
+    // 添加Authorization的输入框
+    option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Description =
+            "Please enter into field the word 'Bearer' followed by a space and the JWT value,Format: Bearer {token}",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey
+    });
+});
 var app = builder.Build();
 
 
@@ -211,6 +211,7 @@ app.UseSwaggerUI(c =>
     c.DocExpansion(DocExpansion.None);
     c.DefaultModelsExpandDepth(-1);
 });
+
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

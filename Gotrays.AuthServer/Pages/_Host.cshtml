@@ -86,5 +86,17 @@
 </style>
 <script src="_framework/blazor.server.js"></script>
 <script src="_content/BlazorComponent/js/blazor-component.js"></script>
+
+<script>
+window.getAntiForgeryToken = ()=> {
+    var elements = document.getElementsByName('__RequestVerificationToken');
+    if (elements.length > 0) {
+        return elements[0].value
+    }
+
+    console.warn('no anti forgery token found!');
+    return null;
+}
+</script>
 </body>
 </html>

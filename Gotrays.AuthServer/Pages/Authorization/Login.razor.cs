@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Json;
+using System.Threading.Tasks;
 using BlazorComponent;
 using Gotrays.AuthServer.Pages.Authorization.Module;
 using Masa.Blazor;
@@ -18,19 +21,39 @@ public partial class Login
 
     [Parameter] public string CreateAccountRoute { get; set; } = $"Account/Register";
 
-    public LoginModule LoginModule { get; set; } = new ();
-    
+    [Parameter] [SupplyParameterFromQuery] public string ReturnUrl { get; set; }
+
+    private LoginModule LoginModule { get; } = new();
+
     private MForm _form;
-    
+
     private async Task OnLogin()
     {
         _form.Validate();
         
-        // var http = HttpClientFactory.CreateClient(string.Empty);
-        //
-        // // 添加一个表单数据
-        // var form = new MultipartFormDataContent();
-        // form.Add(new StringContent("Input.Email"), );
+        var result =
+            await HttpClient.PostAsJsonAsync(NavigationManager.BaseUri + "api/Login" + ReturnUrl,
+                LoginModule);
+
+        result.Headers.ForEach(x =>
+        {
+            if (x.Key.ToLower().Contains("Cookie"))
+            {
+                
+            }
+        });
         
+        if (result.IsSuccessStatusCode)
+        {
+            await PopupService.EnqueueSnackbarAsync("成功", "登录成功", AlertTypes.Success);
+            
+            var token = await JSRuntime.InvokeAsync<string>("getAntiForgeryToken",null);
+            
+            var a = await HttpClient.GetStringAsync(NavigationManager.BaseUri + "connect/userinfo");
+        }
+        else
+        {
+            await PopupService.EnqueueSnackbarAsync("登录失败", await result.Content.ReadAsStringAsync(), AlertTypes.Error);
+        }
     }
 }

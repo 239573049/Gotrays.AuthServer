@@ -25,11 +25,6 @@ public partial class Register
 
     private async Task SlinUpClick()
     {
-        var http = HttpClientFactory.CreateClient(string.Empty);
-
-        // 添加一个application/x-www-form-urlencoded数据
-
-
         var form = new FormUrlEncodedContent(new KeyValuePair<string, string>[]
             {
                 new("Input.Email", RegisterModule.Email),
@@ -38,7 +33,7 @@ public partial class Register
             }
         );
 
-        var response = await http.PostAsync(Navigation.BaseUri + "api/Register", form);
+        var response = await HttpClient.PostAsync(Navigation.BaseUri + "api/Register", form);
         if (!response.IsSuccessStatusCode)
         {
             var error = await response.Content.ReadAsStringAsync();

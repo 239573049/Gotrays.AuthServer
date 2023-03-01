@@ -1,10 +1,17 @@
 ﻿@page "/Account/Login"
 @using System.Net.Http
+@using Dantooine.Server.Data
+@using Microsoft.AspNetCore.Identity
 @layout EmptyLayout
 
 @inject NavigationManager NavigationManager
-@inject IHttpClientFactory HttpClientFactory
+@inject HttpClient HttpClient
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> _userManager;
+@inject IJSRuntime JSRuntime
+@inject IPopupService PopupService
 
+<RemoteAuthenticatorView />
 <MRow Class="max-height ma-0">
     <MCol Md=4 Sm=12 Class="neutral-lighten-5">
         <image class="ml-12 mt-12" style="height:40px;"
