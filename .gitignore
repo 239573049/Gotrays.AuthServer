@@ -264,3 +264,4 @@ src/Gotrays.Blazor/Logs/*
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
 /src/Gotrays.AuthServer/wwwroot/libs
+/src/Gotrays.AuthServer/wwwroot/libs
