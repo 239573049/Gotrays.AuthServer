@@ -16,8 +16,6 @@ RUN dotnet restore "src/Gotrays.AuthServer/Gotrays.AuthServer.csproj"
 COPY . .
 WORKDIR "/src/src/Gotrays.AuthServer"
 RUN dotnet build "Gotrays.AuthServer.csproj" --os linux -c Release -o /app/build
-RUN dotnet tool install -g Volo.Abp.Cli
-RUN abp install-libs
 
 FROM build AS publish
 RUN dotnet publish "Gotrays.AuthServer.csproj" --os linux -c Release -o /app/publish /p:UseAppHost=false
