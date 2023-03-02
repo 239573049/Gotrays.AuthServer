@@ -23,4 +23,5 @@ RUN dotnet publish "Gotrays.AuthServer.csproj" --os linux -c Release -o /app/pub
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+COPY ["src/Gotrays.AuthServer/wwwroot", "wwwroot"]
 ENTRYPOINT ["dotnet", "Gotrays.AuthServer.dll"]
