@@ -7,11 +7,11 @@ using Medallion.Threading.Redis;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StackExchange.Redis;
 using System;
-using System.IO;
 using System.Linq;
 using Volo.Abp;
 using Volo.Abp.Account;
@@ -30,7 +30,6 @@ using Volo.Abp.DistributedLocking;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.VirtualFileSystem;
 
 namespace Gotrays;
 
@@ -82,14 +81,6 @@ public class GotraysAuthServerModule : AbpModule {
             options.ApplicationName = "AuthServer";
         });
 
-        if (hostingEnvironment.IsDevelopment())
-        {
-            Configure<AbpVirtualFileSystemOptions>(options => {
-                options.FileSets.ReplaceEmbeddedByPhysical<GotraysDomainSharedModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Gotrays.Domain.Shared"));
-                options.FileSets.ReplaceEmbeddedByPhysical<GotraysDomainModule>(Path.Combine(hostingEnvironment.ContentRootPath, $"..{Path.DirectorySeparatorChar}Gotrays.Domain"));
-            });
-        }
-
         Configure<AppUrlOptions>(options => {
             options.Applications["MVC"].RootUrl = configuration["App:SelfUrl"];
             options.RedirectAllowedUrls.AddRange(configuration["App:RedirectAllowedUrls"].Split(','));
@@ -135,6 +126,12 @@ public class GotraysAuthServerModule : AbpModule {
                     .AllowCredentials();
             });
         });
+        // Add services to the container.
+        context.Services.AddMasaBlazor();
+
+
+        context.Services.AddRazorPages();
+        context.Services.AddServerSideBlazor();
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context) {
@@ -156,6 +153,12 @@ public class GotraysAuthServerModule : AbpModule {
         app.UseCorrelationId();
         app.UseStaticFiles();
         app.UseRouting();
+
+        if(app is IEndpointRouteBuilder builder)
+        {
+            builder.MapBlazorHub();
+            builder.MapFallbackToPage("/_Host");
+        }
         app.UseCors();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();

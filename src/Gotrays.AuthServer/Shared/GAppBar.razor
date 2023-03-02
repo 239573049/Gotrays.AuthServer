@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Identity;
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+@inject ICurrentUser CurrentUser
+
+<MTabs>
+    <MTab Href="/">首页</MTab>
+	<MTab Href="/application">应用列表</MTab>
+	<MTab Href="/about">关于</MTab>
+    <MSpacer></MSpacer>
+    @if (CurrentUser.Id == null)
+    {
+        <MTab OnClick="OnLogin">登录</MTab>
+    }
+    else
+    {
+		<MMenu Bottom MinWidth="200" Rounded="@true" OffsetY>
+		<ActivatorContent>
+			<MButton Icon XLarge @attributes="@context.Attrs">
+					<MAvatar>
+						<MImage Src="https://cdn.masastack.com/stack/images/website/masa-blazor/jack.png" Alt="Jack"></MImage>
+					</MAvatar>
+				</MButton>
+			</ActivatorContent>
+			<ChildContent>
+				<MCard>
+					<MListItemContent Class="justify-center">
+						<div class="mx-auto text-center">
+							<MAvatar>
+								<MImage Src="https://cdn.masastack.com/stack/images/website/masa-blazor/jack.png" Alt="Jack"></MImage>
+							</MAvatar>
+							<h3>@CurrentUser.Name</h3>
+							<p class="text-caption mt-1">@CurrentUser.Email</p>
+							<MDivider class="my-3"></MDivider>
+							<MButton Depressed Rounded Text>编辑信息</MButton>
+						<MDivider class="my-3"></MDivider>
+						<MButton Depressed Rounded Text OnClick="OnLogout">注销</MButton>
+					</div>
+				</MListItemContent>
+			</MCard>
+		</ChildContent>
+	</MMenu>
+    }
+</MTabs>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Polly;
 using Serilog;
 using Serilog.Events;
 using System;
@@ -32,6 +33,16 @@ public class Program {
                 .UseSerilog();
             await builder.AddApplicationAsync<GotraysAuthServerModule>();
             var app = builder.Build();
+
+            app.Use(async (context, next) =>
+            {
+                if (context.Request.Path.Value == "/")
+                {
+
+                }
+                await next(context);
+            });
+
             await app.InitializeApplicationAsync();
             await app.RunAsync();
             return 0;

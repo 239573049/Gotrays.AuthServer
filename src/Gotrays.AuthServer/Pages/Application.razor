@@ -1,0 +1,45 @@
+﻿@page "/application"
+
+@using Volo.Abp.OpenIddict.Applications;
+
+@inject IOpenIddictApplicationRepository OpenIddictApplicationRepository
+@inject IJSRuntime JSRuntime
+
+<div>
+    @if (Applications != null)
+    {
+        @foreach (var item in Applications)
+        {
+            <div class="panel">
+                <MCard Class="mx-auto " MaxWidth="344" Outlined>
+                    <div>
+                        <MListItem ThreeLine>
+                            <MListItemContent>
+                                <div class="text-overline mb-4">
+                                    预览应用
+                                </div>
+                                <MListItemTitle Class="text-h5 mb-1">
+                                    @item.DisplayName
+                                </MListItemTitle>
+                                <MListItemSubtitle>@item.ClientUri</MListItemSubtitle>
+                            </MListItemContent>
+                            <MListItemAvatar Tile Size=80 >
+                                <MImage Src="https://cdn.masastack.com/stack/images/website/masa-blazor/jack.png" Alt="Jack"></MImage>
+                            </MListItemAvatar>
+                        </MListItem>
+                        <MCardActions>
+                            <MButton Text Block OnClick="async()=>await OnGoto(item)">进入</MButton>
+                        </MCardActions>
+                    </div>
+                </MCard>
+            </div>
+        }
+    }
+</div>
+
+<style>
+    .panel {
+        float: left;
+        margin: 10px;
+    }
+</style>
