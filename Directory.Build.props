@@ -1,0 +1,6 @@
+﻿<Project>
+	<PropertyGroup>
+		<MASAFrameworkVersion>1.0.1-preview.10</MASAFrameworkVersion>
+		<OpenIddictVersion>5.0.1</OpenIddictVersion>
+	</PropertyGroup>
+</Project>

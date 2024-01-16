@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34310.174
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution items", "solution items", "{4D74CD2B-9CC9-4BB5-9D5D-F1B80E7377B8}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A62D57D1-264B-4175-9BD6-080419E1D49F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.Contracts", "src\AuthServer.Contracts\AuthServer.Contracts.csproj", "{B1C5C22E-9419-4533-8A7A-68A01E0051DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthServer.Service", "src\AuthServer.Service\AuthServer.Service.csproj", "{5C67D416-60A7-45AE-B3D4-35C76F2E8585}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B1C5C22E-9419-4533-8A7A-68A01E0051DF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1C5C22E-9419-4533-8A7A-68A01E0051DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1C5C22E-9419-4533-8A7A-68A01E0051DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1C5C22E-9419-4533-8A7A-68A01E0051DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C67D416-60A7-45AE-B3D4-35C76F2E8585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C67D416-60A7-45AE-B3D4-35C76F2E8585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C67D416-60A7-45AE-B3D4-35C76F2E8585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C67D416-60A7-45AE-B3D4-35C76F2E8585}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B1C5C22E-9419-4533-8A7A-68A01E0051DF} = {A62D57D1-264B-4175-9BD6-080419E1D49F}
+		{5C67D416-60A7-45AE-B3D4-35C76F2E8585} = {A62D57D1-264B-4175-9BD6-080419E1D49F}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E98E153C-596A-406E-9485-BF0E9412B63F}
+	EndGlobalSection
+EndGlobal
