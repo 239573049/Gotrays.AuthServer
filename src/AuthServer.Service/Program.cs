@@ -1,16 +1,3 @@
-using System.Security.Claims;
-using Masa.BuildingBlocks.Data;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.IdentityModel.Tokens;
-using OpenIddict.Abstractions;
-using OpenIddict.Client.AspNetCore;
-using OpenIddict.Server.AspNetCore;
-using OpenIddict.Validation.AspNetCore;
-using Quartz;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // OpenIddict提供与Quartz的原生集成。NET来执行计划任务
@@ -168,29 +155,6 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapGet("/api",
-    [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
-    (
-        ClaimsPrincipal user) => user.Identity!.Name);
-
-app.MapMethods("callback/login/github", [HttpMethods.Get, HttpMethods.Post], async (HttpContext context) =>
-{
-    // Resolve the claims extracted by OpenIddict from the userinfo response returned by GitHub.
-    var result = await context.AuthenticateAsync(OpenIddictClientAspNetCoreDefaults.AuthenticationScheme);
-
-    var identity = new ClaimsIdentity(authenticationType: "ExternalLogin");
-    identity.AddClaim(new Claim(ClaimTypes.NameIdentifier, result.Principal!.FindFirst("id")!.Value));
-
-    var properties = new AuthenticationProperties
-    {
-        RedirectUri = result.Properties!.RedirectUri
-    };
-
-    // For scenarios where the default sign-in handler configured in the ASP.NET Core
-    // authentication options shouldn't be used, a specific scheme can be specified here.
-    return Results.SignIn(new ClaimsPrincipal(identity), properties);
-});
-
 app.MapMethods("/authorize/token", [HttpMethods.Post], async (HttpContext context) =>
 {
     var identity = new ClaimsIdentity(authenticationType: "ExternalLogin");
@@ -199,42 +163,40 @@ app.MapMethods("/authorize/token", [HttpMethods.Post], async (HttpContext contex
     return Results.SignIn(new ClaimsPrincipal(identity));
 });
 
-app.MapGet("/test", () => { return string.Empty; }).RequireAuthorization();
-
-app.MapGet("/authorize", async (HttpContext context) =>
-{
-    // Resolve the claims stored in the cookie created after the GitHub authentication dance.
-    // If the principal cannot be found, trigger a new challenge to redirect the user to GitHub.
-    //
-    // For scenarios where the default authentication handler configured in the ASP.NET Core
-    // authentication options shouldn't be used, a specific scheme can be specified here.
-    var principal = (await context.AuthenticateAsync())?.Principal;
-    if (principal is null)
-    {
-        var properties = new AuthenticationProperties
-        {
-            RedirectUri = context.Request.GetEncodedUrl()
-        };
-
-        return Results.Challenge(properties, [OpenIddictClientAspNetCoreDefaults.AuthenticationScheme]);
-    }
-
-    var identifier = principal.FindFirst(ClaimTypes.NameIdentifier)!.Value;
-
-    // Create the claims-based identity that will be used by OpenIddict to generate tokens.
-    var identity = new ClaimsIdentity(
-        authenticationType: TokenValidationParameters.DefaultAuthenticationType,
-        nameType: OpenIddictConstants.Claims.Name,
-        roleType: OpenIddictConstants.Claims.Role);
-
-    // Import a few select claims from the identity stored in the local cookie.
-    identity.AddClaim(new Claim(OpenIddictConstants.Claims.Subject, identifier));
-    identity.AddClaim(
-        new Claim(OpenIddictConstants.Claims.Name, identifier).SetDestinations(OpenIddictConstants.Destinations
-            .AccessToken));
-
-    return Results.SignIn(new ClaimsPrincipal(identity), properties: null,
-        OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
-});
+// app.MapGet("/authorize", async (HttpContext context) =>
+// {
+//     // Resolve the claims stored in the cookie created after the GitHub authentication dance.
+//     // If the principal cannot be found, trigger a new challenge to redirect the user to GitHub.
+//     //
+//     // For scenarios where the default authentication handler configured in the ASP.NET Core
+//     // authentication options shouldn't be used, a specific scheme can be specified here.
+//     var principal = (await context.AuthenticateAsync())?.Principal;
+//     if (principal is null)
+//     {
+//         var properties = new AuthenticationProperties
+//         {
+//             RedirectUri = context.Request.GetEncodedUrl()
+//         };
+//
+//         return Results.Challenge(properties, [OpenIddictClientAspNetCoreDefaults.AuthenticationScheme]);
+//     }
+//
+//     var identifier = principal.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+//
+//     // Create the claims-based identity that will be used by OpenIddict to generate tokens.
+//     var identity = new ClaimsIdentity(
+//         authenticationType: TokenValidationParameters.DefaultAuthenticationType,
+//         nameType: OpenIddictConstants.Claims.Name,
+//         roleType: OpenIddictConstants.Claims.Role);
+//
+//     // Import a few select claims from the identity stored in the local cookie.
+//     identity.AddClaim(new Claim(OpenIddictConstants.Claims.Subject, identifier));
+//     identity.AddClaim(
+//         new Claim(OpenIddictConstants.Claims.Name, identifier).SetDestinations(OpenIddictConstants.Destinations
+//             .AccessToken));
+//
+//     return Results.SignIn(new ClaimsPrincipal(identity), properties: null,
+//         OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+// });
 
 app.Run();
