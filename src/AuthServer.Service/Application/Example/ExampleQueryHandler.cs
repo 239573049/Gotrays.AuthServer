@@ -5,9 +5,9 @@ public class ExampleQueryHandler
     /// <summary>
     /// This can use query's DbContext
     /// </summary>
-    private readonly ExampleDbContext _dbContext;
+    private readonly AuthDbContext _dbContext;
 
-    public ExampleQueryHandler(ExampleDbContext dbContext) => _dbContext = dbContext;
+    public ExampleQueryHandler(AuthDbContext dbContext) => _dbContext = dbContext;
 
     [EventHandler]
     public Task GetListAsync(ExampleGetListQuery command)

@@ -5,9 +5,9 @@ public class ExampleCommandHandler
     /// <summary>
     /// This use business DbContext
     /// </summary>
-    private readonly ExampleDbContext _dbContext;
+    private readonly AuthDbContext _dbContext;
 
-    public ExampleCommandHandler(ExampleDbContext dbContext) => _dbContext = dbContext;
+    public ExampleCommandHandler(AuthDbContext dbContext) => _dbContext = dbContext;
 
     [EventHandler]
     public Task CreateAsync(CreateExampleCommand command)

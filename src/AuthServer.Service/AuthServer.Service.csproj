@@ -3,6 +3,7 @@
   	<TargetFramework>net7.0</TargetFramework>
   	<Nullable>enable</Nullable>
   	<ImplicitUsings>enable</ImplicitUsings>
+  	<LangVersion>latest</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
@@ -11,6 +12,10 @@
   	<PackageReference Include="Masa.Contrib.Dispatcher.Events" Version="$(MASAFrameworkVersion)" />
   	<PackageReference Include="Masa.Contrib.Exceptions" Version="$(MASAFrameworkVersion)" />
   	<PackageReference Include="Masa.Contrib.Service.MinimalAPIs" Version="$(MASAFrameworkVersion)" />
+  	<PackageReference Include="OpenIddict.AspNetCore" Version="5.0.1" />
+  	<PackageReference Include="OpenIddict.EntityFrameworkCore" Version="5.0.1" />
+  	<PackageReference Include="OpenIddict.Quartz" Version="5.0.1" />
+  	<PackageReference Include="Quartz.Extensions.Hosting" Version="3.8.0" />
   	<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
   

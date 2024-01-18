@@ -1,10 +1,10 @@
 ﻿namespace AuthServer.Service.DataAccess;
 
-public class ExampleDbContext : MasaDbContext
+public class AuthDbContext : MasaDbContext
 {
     //public DbSet<UserEntity> { get; set; }
 
-    public ExampleDbContext(MasaDbContextOptions<ExampleDbContext> options) : base(options)
+    public AuthDbContext(MasaDbContextOptions<AuthDbContext> options) : base(options)
     {
     }
 
